@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 @Component
 public class UserConverter {
     private final OrderConverter orderConverter;
+    private final RoleConverter roleConverter;
 
-    public UserConverter(OrderConverter orderConverter) {
+    public UserConverter(OrderConverter orderConverter, RoleConverter roleConverter) {
         this.orderConverter = orderConverter;
+        this.roleConverter = roleConverter;
     }
 
     public UserDto toDto(User user) {
@@ -23,6 +25,7 @@ public class UserConverter {
                 .dateBorn(u.getDateBorn())
                 .surname(u.getSurname())
                 .password(u.getPassword())
+                .role(u.getRole().getName())
                 .orders(Optional.ofNullable(u.getOrders())
                         .map(products -> products.stream()
                                 .map(orderConverter::toDto)

@@ -27,13 +27,15 @@ public class ProductConverter {
     }
 
     public Product fromDto(ProductDto productDto) {
-        return Optional.ofNullable(productDto).map(pdto -> Product.builder()
-                .id(pdto.getId())
-                .category(categoryRepository.getCategoryById(pdto.getCategoryId()))
-                .name(pdto.getName())
-                .description(pdto.getDescription())
-                .price(pdto.getPrice())
-                .imageName(pdto.getImageName())
-                .build()).orElse(null);
+        return Optional.ofNullable(productDto).map(pdto -> {
+                return Product.builder()
+                        .id(pdto.getId())
+                        .category(categoryRepository.getCategoryById(pdto.getCategoryId()))
+                        .name(pdto.getName())
+                        .description(pdto.getDescription())
+                        .price(pdto.getPrice())
+                        .imageName(pdto.getImageName())
+                        .build();
+        }).orElse(null);
     }
 }

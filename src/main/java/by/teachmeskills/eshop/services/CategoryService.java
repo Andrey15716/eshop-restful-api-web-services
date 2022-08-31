@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CategoryService extends BaseServices<Category> {
 
-    CategoryDto getCategoryDataPagination(int id, int pageNumber) throws ServiceExceptions, RepositoryExceptions;
+    CategoryDto getCategoryData(int id, int pageNumber, int pageSize) throws ServiceExceptions, RepositoryExceptions;
 
     List<CategoryDto> getHomePageInformation();
 

@@ -27,4 +27,5 @@ public class UserDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBorn;
     private List<OrderDto> orders;
+    private String role;
 }

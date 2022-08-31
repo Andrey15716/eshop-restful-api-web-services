@@ -2,11 +2,15 @@ package by.teachmeskills.eshop.repositories;
 
 import by.teachmeskills.eshop.entities.User;
 import by.teachmeskills.eshop.exceptions.RepositoryExceptions;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends BaseRepository<User> {
-    User getUserByLoginAndPass(String login, String password) throws RepositoryExceptions;
+import java.util.Optional;
 
-    User addUser(User user) throws RepositoryExceptions;
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    User getUserId(int id);
+    Optional<User> getUserByName(String name) throws RepositoryExceptions;
+
+    User getUserById(int id);
 }

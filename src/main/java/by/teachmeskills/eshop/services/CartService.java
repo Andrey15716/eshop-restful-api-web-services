@@ -25,7 +25,8 @@ public class CartService {
     private final CartConverter cartConverter;
     private final UserConverter userConverter;
 
-    public CartService(ProductRepository productRepository, OrderRepository orderRepository, UserRepository userRepository, CartConverter cartConverter, UserConverter userConverter) {
+    public CartService(ProductRepository productRepository, OrderRepository orderRepository, UserRepository userRepository,
+                       CartConverter cartConverter, UserConverter userConverter) {
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
@@ -57,10 +58,10 @@ public class CartService {
             Order order = Order.builder()
                     .priceOrder(priceOrder)
                     .date(date)
-                    .user(userRepository.getUserId(userId))
+                    .user(userRepository.getUserById(userId))
                     .productList(products)
                     .build();
-            orderRepository.create(order);
+            orderRepository.save(order);
         } catch (Exception e) {
             log.error(e.getMessage());
             return "Product was not purchased";

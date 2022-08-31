@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
@@ -51,9 +52,11 @@ public class CategoryController {
             )
     })
 
-    @GetMapping("/{id}/{page}")
-    public ResponseEntity<CategoryDto> openCategoryPagination(@Min(value = 1) @PathVariable int id, @Min(value = 2) @PathVariable int page) throws RepositoryExceptions, ServiceExceptions {
-        CategoryDto categoryDto = categoryService.getCategoryDataPagination(id, page);
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDto> openCategoryPage(@Min(value = 1) @PathVariable int id,
+                                                        @RequestParam int pageNumber,
+                                                        @RequestParam int pageSize) throws RepositoryExceptions, ServiceExceptions {
+        CategoryDto categoryDto = categoryService.getCategoryData(id, pageNumber, pageSize);
         if (Optional.ofNullable(categoryDto).isPresent()) {
             return new ResponseEntity<>(categoryDto, HttpStatus.OK);
         } else {

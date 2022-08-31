@@ -4,10 +4,13 @@ import by.teachmeskills.eshop.dto.ProductDto;
 import by.teachmeskills.eshop.dto.converts.ProductConverter;
 import by.teachmeskills.eshop.entities.Product;
 import by.teachmeskills.eshop.exceptions.RepositoryExceptions;
-import by.teachmeskills.eshop.exceptions.ServiceExceptions;
 import by.teachmeskills.eshop.repositories.ProductRepository;
 import by.teachmeskills.eshop.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,28 +28,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product create(Product entity) throws ServiceExceptions, RepositoryExceptions {
-        return productRepository.create(entity);
+    public Product create(Product entity) {
+        return productRepository.save(entity);
     }
 
     @Override
-    public List<Product> read() throws ServiceExceptions, RepositoryExceptions {
-        return productRepository.read();
+    public List<Product> read() {
+        return productRepository.findAll();
     }
 
     @Override
-    public Product update(Product entity) throws ServiceExceptions, RepositoryExceptions {
-        return productRepository.update(entity);
+    public Product update(Product entity) {
+        return productRepository.save(entity);
     }
 
     @Override
-    public void delete(int id) throws ServiceExceptions, RepositoryExceptions {
-        productRepository.delete(id);
+    public void delete(int id) throws RepositoryExceptions {
+        productRepository.deleteProductById(id);
     }
 
     @Override
     public List<ProductDto> getProductsBySearchRequest(String param) throws RepositoryExceptions {
-        List<Product> productListResult = productRepository.getProductsBySearchRequest(param);
+        List<Product> productListResult = productRepository.findAllByNameContaining(param);
         log.info("User got product by search request - " + param);
         return productListResult.stream().map(productConverter::toDto).collect(Collectors.toList());
     }
@@ -57,26 +60,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductsByCategoryIdPagination(int categoryId, int pageNumber) {
-        return productRepository.getAllProductsByCategoryIdPaging(categoryId, pageNumber);
+    public Page<Product> getAllProductsByCategoryId(int categoryId, int pageNumber, int pageSize) throws RepositoryExceptions {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
+        return productRepository.findAllByCategoryId(categoryId, pageable);
     }
 
     @Override
-    public ProductDto createProduct(ProductDto productDto) throws RepositoryExceptions {
+    public ProductDto createProduct(ProductDto productDto) {
         Product product = productConverter.fromDto(productDto);
-        product = productRepository.create(product);
+        product = productRepository.save(product);
         return productConverter.toDto(product);
     }
 
     @Override
-    public ProductDto updateProduct(ProductDto productDto) throws RepositoryExceptions {
+    public ProductDto updateProduct(ProductDto productDto) {
         Product product = productConverter.fromDto(productDto);
-        product = productRepository.update(product);
+        product = productRepository.save(product);
         return productConverter.toDto(product);
     }
 
     @Override
     public void deleteProduct(int id) throws RepositoryExceptions {
-        productRepository.delete(id);
+        productRepository.deleteProductById(id);
     }
 }
