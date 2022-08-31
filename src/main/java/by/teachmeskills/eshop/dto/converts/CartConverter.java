@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Component
 public class CartConverter {
     private final ProductConverter productConverter;

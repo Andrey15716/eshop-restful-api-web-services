@@ -38,7 +38,7 @@ public class OrderConverter {
                 .id(odto.getId())
                 .date(odto.getDate())
                 .priceOrder(odto.getPriceOrder())
-                .user(userRepository.getUserId(odto.getId()))
+                .user(userRepository.getUserById(odto.getId()))
                 .productList(Optional.ofNullable(odto.getProductList())
                         .map(products -> products.stream()
                                 .map(productConverter::fromDto)

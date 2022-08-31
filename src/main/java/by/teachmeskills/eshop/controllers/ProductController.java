@@ -130,7 +130,7 @@ public class ProductController {
     })
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Integer> deleteProduct(@PathVariable int id) throws RepositoryExceptions {
+    public ResponseEntity<Integer> deleteProduct(@PathVariable int id) {
         try {
             productService.deleteProduct(id);
             return new ResponseEntity<>(HttpStatus.OK);

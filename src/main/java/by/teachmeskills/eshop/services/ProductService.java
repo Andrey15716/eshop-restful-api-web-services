@@ -4,6 +4,7 @@ import by.teachmeskills.eshop.dto.ProductDto;
 import by.teachmeskills.eshop.entities.Product;
 import by.teachmeskills.eshop.exceptions.RepositoryExceptions;
 import by.teachmeskills.eshop.exceptions.ServiceExceptions;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ProductService extends BaseServices<Product> {
 
     ProductDto getProductById(int id) throws ServiceExceptions, RepositoryExceptions;
 
-    List<Product> getAllProductsByCategoryIdPagination(int categoryId, int pageNumber) throws ServiceExceptions, RepositoryExceptions;
+    Page<Product> getAllProductsByCategoryId(int categoryId, int pageNumber, int pageSize) throws ServiceExceptions, RepositoryExceptions;
 
     ProductDto createProduct(ProductDto productDto) throws RepositoryExceptions;
 
